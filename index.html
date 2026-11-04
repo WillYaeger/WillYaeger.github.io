@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Low-Dose Radiation: Get the Data First</title>
+<meta name="description" content="Why Florida engineers and energy policymakers should push Congress to fund low-dose radiation research before the NRC rewrites the rules any further.">
+<style>
+  :root {
+    --page: #e3e3e3;
+    --paper: #ffffff;
+    --ink: #333333;
+    --head: #24405f;
+    --navbar: #1a2f4a;
+    --orange: #e8731c;
+    --rule: #dddddd;
+    --soft: #f4f4f4;
+    --link: #0645ad;
+    --visited: #551a8b;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page: #161616;
+      --paper: #242424;
+      --ink: #dddddd;
+      --head: #9fc0e8;
+      --navbar: #111c2b;
+      --rule: #3a3a3a;
+      --soft: #2e2e2e;
+      --link: #8ab4f8;
+      --visited: #c58af9;
+      color-scheme: dark;
+    }
+  }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  a { color: var(--link); }
+  a:visited { color: var(--visited); }
+  #wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    background: var(--paper);
+    border-left: 1px solid #bbbbbb;
+    border-right: 1px solid #bbbbbb;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  }
+  header {
+    background: #2b4a73;
+    background: linear-gradient(#3a5f91, #24405f);
+    color: #ffffff;
+    padding: 26px 24px 20px;
+  }
+  header h1 {
+    margin: 0;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    font-size: 32px;
+    line-height: 1.15;
+    text-shadow: 1px 1px 0 #000000;
+  }
+  header p { margin: 6px 0 0; font-size: 14px; color: #dce6f2; }
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--navbar);
+    border-top: 1px solid #4b6a92;
+    border-bottom: 3px solid var(--orange);
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  nav a, nav a:visited {
+    color: #ffffff;
+    text-decoration: none;
+    display: inline-block;
+    padding: 9px 12px;
+    border-right: 1px solid #2f4b70;
+  }
+  nav a:hover, nav a:focus { background: #2f4b70; }
+  nav a.action, nav a.action:visited { background: var(--orange); }
+  @media (max-width: 700px) { nav { white-space: nowrap; overflow-x: auto; } }
+  .content { padding: 6px 26px 30px; }
+  section { padding: 14px 0 18px; }
+  section[id] { scroll-margin-top: 50px; }
+  h2 {
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    color: var(--head);
+    font-size: 24px;
+    border-bottom: 2px solid var(--rule);
+    padding-bottom: 4px;
+    margin: 18px 0 10px;
+  }
+  h3 { font-family: "Trebuchet MS", Arial, sans-serif; color: var(--head); font-size: 17px; margin: 18px 0 4px; }
+  .btn, .btn:visited {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 4px 8px 4px 0;
+    border: 1px solid #b85a12;
+    border-radius: 4px;
+    background: #e8731c;
+    background: linear-gradient(#f39a3e, #e0701b);
+    color: #ffffff;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+  }
+  .btn.gray, .btn.gray:visited {
+    border-color: #999999;
+    background: #dddddd;
+    background: linear-gradient(#f5f5f5, #d6d6d6);
+    color: #333333;
+    text-shadow: 0 1px 0 #ffffff;
+  }
+  .img-ph {
+    background: #d9d9d9;
+    border: 1px solid #bbbbbb;
+    color: #666666;
+    text-align: center;
+    padding: 46px 12px;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+  .caption { font-size: 13px; color: #777777; margin-top: -6px; }
+  canvas { width: 100%; height: auto; border: 1px solid var(--rule); background: var(--paper); display: block; }
+  .bars { font-size: 13px; margin: 14px 0; }
+  .bar-row { margin: 7px 0; }
+  .bar-label { display: block; }
+  .bar-track { background: var(--soft); border: 1px solid var(--rule); height: 15px; }
+  .bar-fill { height: 100%; width: 0; background: #3a5f91; transition: width 1.2s ease-out; }
+  .bar-fill.limit { background: var(--orange); }
+  @media (prefers-reduced-motion: reduce) { .bar-fill { transition: none; } }
+  .pull {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.45;
+    border-left: 5px solid var(--orange);
+    background: var(--soft);
+    margin: 18px 0;
+    padding: 10px 18px;
+  }
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 430px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  #copy-status { font-size: 13px; color: #2e7d32; }
+  .sources li { margin-bottom: 6px; font-size: 13px; }
+  footer {
+    background: var(--head);
+    background: #24405f;
+    color: #dce6f2;
+    font-size: 12px;
+    text-align: center;
+    padding: 16px;
+  }
+  @media print {
+    nav, footer, header, .no-print { display: none !important; }
+    body.print-brief .content > section { display: none; }
+    body.print-brief .content > section.brief { display: block; }
+    #wrap { box-shadow: none; border: none; }
+  }
+</style>
+</head>
+<body>
+<div id="wrap">
+
+<header>
+  <h1>Low-Dose Radiation: Get the Data First</h1>
+  <p>For Florida engineers and energy policymakers</p>
+</header>
+
+<nav aria-label="Page sections">
+  <a href="#home">Home</a><a href="#rule">What’s Changing</a><a href="#science">Science</a><a href="#dose">Doses</a><a href="#fukushima">Fukushima</a><a href="#other-side">Other Side</a><a href="#about">About</a><a href="#sources">Sources</a><a href="#action" class="action">Send the Letter</a>
+</nav>
+
+<div class="content">
+
+<section id="home" class="brief">
+  <h2>Why this page exists</h2>
+  <div class="img-ph no-print">[Image: Turkey Point or St. Lucie nuclear plant. Need a public domain photo from the NRC or Wikimedia Commons.]</div>
+  <p>The NRC is about to make one of the biggest changes to its radiation rules in decades, and most people outside the nuclear industry haven’t heard about it. In July 2026 the NRC proposed getting rid of ALARA, which is the rule that says nuclear facilities have to keep radiation doses “as low as reasonably achievable” even when they are already under the legal limit. The NRC kept the Linear No-Threshold (LNT) model though, which assumes that any dose of radiation, no matter how small, adds some cancer risk.</p>
+  <p>The reason they kept LNT surprised me when I first read about it. It wasn’t because the science proves LNT is right. It was because nobody has enough data to replace it. Below about 10 rem there is very little data at all. The Million Person Study could help fill that gap, and the Health Physics Society thinks it could be finished for around $5 to $10 million, but funding has been the main thing holding it back.</p>
+  <p>So I’m asking Florida engineers and energy policymakers to do one thing. Send a short letter to your members of Congress asking them to fund low-dose radiation research. There’s a letter you can copy at the bottom of this page.</p>
+  <p class="no-print"><a class="btn" href="#action">Go to the letter</a> <a class="btn gray" href="#rule">Keep reading</a></p>
+</section>
+
+<section id="rule">
+  <h2>What’s changing</h2>
+  <p>This started in May 2025 when President Trump signed <a href="https://www.whitehouse.gov/presidential-actions/2025/05/ordering-the-reform-of-the-nuclear-regulatory-commission/">Executive Order 14300</a>. The order told the NRC to rethink its use of LNT and ALARA and said that these models “lack sound scientific basis and produce irrational results.” On July 15, 2026 the NRC published its <a href="https://www.regulations.gov/document/NRC-2025-1140-0001">proposed rule</a>, called “Reforming and Modernizing the NRC’s Radiation Protection Framework.” Public comments closed on August 31, and the final rule is expected sometime in November.</p>
+  <p>Here is what the proposed rule does, based on <a href="https://www.aip.org/fyi/nrc-affirms-science-behind-radiation-standards">AIP’s coverage</a> of it.</p>
+  <ul>
+    <li>The dose limits stay the same, which is 5 rem a year for workers and 100 millirem a year for the public.</li>
+    <li>ALARA goes away. The NRC says it had turned into an expectation to cut dose any time it was possible, even when the benefit was tiny.</li>
+    <li>Below the limits, licensees can weigh the cost against how much dose they would save. The rule uses $5,200 per person-rem as an example of a reasonable cost.</li>
+    <li>LNT stays. The NRC still calls it the most appropriate model available.</li>
+  </ul>
+  <h3>Why Florida should pay attention</h3>
+  <p>Florida has more at stake here than people might think. Turkey Point and St. Lucie supply part of the state’s power, and Florida is an Agreement State, which means the state itself regulates a lot of the people who use radioactive material, like hospitals and industrial radiography companies. <a href="https://natlawreview.com/article/nrc-proposes-removing-alara-radiation-protection-rules">The National Law Review</a> points out that Agreement States may have to update their own rules to stay compatible once the NRC finalizes this. That puts some of this work on regulators and legislators right here in Tallahassee.</p>
+</section>
+
+<section id="science">
+  <h2>What the science says</h2>
+  <p>LNT assumes that cancer risk goes up in a straight line with dose, all the way down to zero. Almost every radiation rule in the U.S. is built on it, including the dose limits that are staying in place.</p>
+  <p>I want to be upfront that LNT has real evidence behind it. The National Research Council’s <a href="https://nap.nationalacademies.org/catalog/11340">BEIR VII report</a>, which is one of the most cited reviews on low-dose radiation, found that the evidence is consistent with a linear risk that keeps going at low doses without a threshold. A newer study called <a href="https://doi.org/10.1136/bmj-2022-074520">INWORKS</a> followed over 300,000 nuclear workers in France, the UK, and the U.S. and found that the risk of dying from solid cancer went up with dose, even for workers who had low total doses. I’m not going to pretend those studies don’t exist.</p>
+  <p>The problem is that most of what we know comes from people who got very high doses, like atomic bomb survivors. Craig Little of the Health Physics Society told <a href="https://www.aip.org/fyi/nrc-mulls-changes-to-radiation-safety-requirements">AIP</a> that below 10 rem we have “almost no data.” The NRC admits in its own rule that measuring low-dose risk has been a scientific challenge for a long time, but it kept LNT anyway because there isn’t a replacement that is ready to be used in regulations.</p>
+  <p>As an engineering student, this is the part that bothers me the most. In engineering you use safety factors all the time, but you base them on test data. ALARA was basically an extra safety factor on top of an assumption that nobody has been able to test. I don’t think the answer is to guess at a new threshold either. I think we need the data.</p>
+  <canvas id="model-chart" width="720" height="380" aria-label="Animated sketch comparing the LNT model and a threshold model below 10 rem"></canvas>
+  <p class="caption">This chart is just a sketch and not real data. Both models fit the high-dose data. Below 10 rem there is almost nothing to go on, so each model is a different guess about how the line gets to zero. <button class="btn gray no-print" id="replay" type="button">Replay</button></p>
+  <div class="img-ph no-print">[Video: short animated explainer, about a minute long, on how LNT and threshold models are drawn from high-dose data]</div>
+</section>
+
+<section id="dose">
+  <h2>How big are these doses?</h2>
+  <p>Most people already get a lot more radiation than the public limit just from living their lives. The <a href="https://www.nrc.gov/about-nrc/radiation/around-us/doses-daily-lives.html">NRC</a> says the average American gets about 620 millirem a year from all sources, and around half of that is natural background radiation from radon, cosmic rays, and the ground. A chest X-ray is about 10 millirem and a chest CT scan is about 700. The EPA puts a cross-country flight at around 2 to 5 millirem. Meanwhile the public dose limit for NRC-licensed facilities is 100 millirem a year, and the limit for workers is 5,000.</p>
+  <div class="bars" id="dose-bars" aria-label="Bar chart of common radiation doses on a log scale"></div>
+  <p class="caption">This uses a log scale so the small and large doses fit on one chart. Orange bars are NRC limits.</p>
+  <div class="img-ph no-print">[Dose calculator goes here. Readers enter flight hours, X-rays, CT scans, and where they live, and see their yearly total next to the 100 millirem public limit.]</div>
+  <p>This doesn’t prove that low doses are safe. What it shows is that the public limit is already a small piece of what people get from everyday life, and that the question of what happens below 10 rem is worth actually answering.</p>
+</section>
+
+<section id="fukushima">
+  <h2>Fukushima</h2>
+  <p>In March 2011 an earthquake and tsunami caused a meltdown at the Fukushima Daiichi plant in Japan, and a large area around the plant was evacuated. Since then Fukushima Prefecture has counted <a href="https://www.pref.fukushima.lg.jp/uploaded/attachment/405834.pdf">more than 2,000 disaster-related deaths</a>. These are deaths from the stress and health problems that came with living as evacuees. The <a href="https://www.unscear.org/">United Nations Scientific Committee on the Effects of Atomic Radiation</a>, on the other hand, found no adverse health effects among Fukushima residents that could be directly tied to the radiation.</p>
+  <p class="pull">More than 2,000 people died from the evacuation. The radiation itself has not been directly linked to health effects among residents.</p>
+  <p>I don’t want to overstate this. American regulations had nothing to do with those deaths, and some evacuation near the plant was necessary. My point is only that fear of radiation can cause harm too. When every dose is treated as dangerous, it is easy to make decisions that hurt more people than the radiation would have, and without low-dose data there is no good way to know where that line is.</p>
+  <div class="img-ph no-print">[Image: evacuation shelter or empty town near Fukushima. Need a Creative Commons or public domain photo.]</div>
+</section>
+
+<section id="other-side">
+  <h2>Arguments against the rule</h2>
+  <p>A lot of groups oppose this rule, and I think some of their points are fair. The <a href="https://www.ucs.org/about/news/new-nrc-radiation-rules-put-workers-communities-risk">Union of Concerned Scientists</a> says LNT is accepted internationally and that dropping ALARA could lead companies to cut corners on things like shielding. Edwin Lyman, their director of nuclear power safety, said the rule would expose workers and the public to more radiation “just to save the nuclear industry money.” <a href="https://www.healutah.org/act-now-tell-the-nrc-to-continue-protecting-communities-public-health-and-meaningful-oversight/">HEAL Utah</a>, a community group, points to the Downwinders and uranium workers in Utah who got sick during the Cold War.</p>
+  <p>Here is where I land on those. The Utah workers were exposed before real protections existed, and I haven’t seen anyone arguing to go back to that. The dose limits in the new rule aren’t changing. What is changing is the extra requirement to keep pushing below those limits with no clear stopping point.</p>
+  <p>I actually agree with the critics that LNT shouldn’t be thrown out just because some people don’t like it. That is why this page asks for research and not for a new threshold. If the research shows LNT holds up at low doses, the critics will have better evidence than they do now. If it shows there is a threshold, the rules can change based on that. I would rather know than keep arguing about it.</p>
+  <p>If you want to read a supporting argument from a policy group, the <a href="https://www.americafirstpolicy.com/issues/comments-supporting-replacement-of-alara-and-further-review-of-radiation-dose-limits-and-the-linear-no-threshold-model">America First Policy Institute’s public comment</a> on the rule also asks for a structured scientific review of LNT.</p>
+</section>
+
+<section id="action" class="brief">
+  <h2>What you can do</h2>
+  <p>It should take about five minutes.</p>
+  <ol>
+    <li><a href="https://www.congress.gov/members/find-your-member">Look up your U.S. Representative and Florida’s two Senators.</a></li>
+    <li>Copy the letter below and paste it into each of their contact forms. Please add a sentence of your own, because personal letters get more attention than copies of the same one.</li>
+    <li>Send this page to one coworker or colleague who works in engineering or energy policy.</li>
+  </ol>
+  <textarea id="letter" aria-label="Letter to your member of Congress (you can edit it)">Dear [Representative / Senator] [Name],
+
+I am a [engineer / policymaker / constituent] in Florida, and I am writing to ask you to support federal funding for low-dose radiation research, including the Million Person Study.
+
+The Nuclear Regulatory Commission is finalizing major changes to its radiation protection rules. In its proposed rule, the NRC kept the Linear No-Threshold model because there is no regulation-ready alternative, even though experts agree there is very little data on health effects below about 10 rem. Our radiation rules are being written around an assumption that has never really been tested at the doses that matter most.
+
+Florida has a direct stake in this. We rely on nuclear power from Turkey Point and St. Lucie, and as an Agreement State, Florida may need to update its own radiation rules to match the federal changes. Finishing the Million Person Study has been estimated to cost around $5 to $10 million, which is small compared to the cost of regulating without an answer.
+
+[Add a sentence about why this matters to you.]
+
+Please support funding for low-dose radiation research so future rules can be based on evidence.
+
+Sincerely,
+[Your name]
+[Your city], Florida</textarea>
+  <p class="no-print">
+    <button class="btn" id="copy-letter" type="button">Copy letter</button>
+    <button class="btn gray" id="print-brief" type="button">Print summary</button>
+    <span id="copy-status" role="status"></span>
+  </p>
+</section>
+
+<section id="about">
+  <h2>About me</h2>
+  <div class="img-ph no-print">[Photo of Will]</div>
+  <p>I’m Will Yaeger, an electrical engineering student at Florida State in Tallahassee. I made this page for my ENC 1101 class, but the letter is real and I would really like people to send it. [ADD YOUR OWN REASON FOR CARING ABOUT THIS HERE]</p>
+  <p>I’m not a radiation scientist. Everything on this page comes from government documents, peer-reviewed studies, and science policy reporting, and it is all linked in the sources section so you can check it. I also tried to include the best arguments from people who disagree with me, because I don’t trust pages that only show one side and I don’t expect you to either.</p>
+  <p>If I got something wrong, email me at [YOUR EMAIL].</p>
+</section>
+
+<section id="sources">
+  <h2>Sources</h2>
+  <ul class="sources">
+    <li>Fukushima Prefectural Government. <a href="https://www.pref.fukushima.lg.jp/uploaded/attachment/405834.pdf">“Steps for Revitalization in Fukushima.”</a> Dec. 2019.</li>
+    <li>National Research Council. <a href="https://nap.nationalacademies.org/catalog/11340"><em>Health Risks from Exposure to Low Levels of Ionizing Radiation: BEIR VII Phase 2</em></a>. National Academies Press, 2006.</li>
+    <li>“NRC Proposes Removing ALARA from Radiation Protection Rules.” <a href="https://natlawreview.com/article/nrc-proposes-removing-alara-radiation-protection-rules"><em>The National Law Review</em></a>, 15 July 2026.</li>
+    <li>“NRC Proposes to Weaken Radiation Protections, Putting Workers and Communities at Risk.” <a href="https://www.ucs.org/about/news/new-nrc-radiation-rules-put-workers-communities-risk"><em>Union of Concerned Scientists</em></a>, 2 July 2026.</li>
+    <li>Richardson, David B., et al. <a href="https://doi.org/10.1136/bmj-2022-074520">“Cancer Mortality after Low Dose Exposure to Ionising Radiation in Workers in France, the United Kingdom, and the United States (INWORKS).”</a> <em>BMJ</em>, vol. 382, 2023.</li>
+    <li>Trump, Donald J. <a href="https://www.whitehouse.gov/presidential-actions/2025/05/ordering-the-reform-of-the-nuclear-regulatory-commission/">“Ordering the Reform of the Nuclear Regulatory Commission.”</a> <em>The White House</em>, 23 May 2025.</li>
+    <li>United Nations Scientific Committee on the Effects of Atomic Radiation. <a href="https://www.unscear.org/"><em>UNSCEAR 2020/2021 Report</em></a>. Vol. 2, Annex B, 2022.</li>
+    <li>United States, Nuclear Regulatory Commission. <a href="https://www.regulations.gov/document/NRC-2025-1140-0001">“Reforming and Modernizing the NRC’s Radiation Protection Framework.”</a> <em>Federal Register</em>, vol. 91, 15 July 2026.</li>
+    <li>United States, Nuclear Regulatory Commission. <a href="https://www.nrc.gov/about-nrc/radiation/around-us/doses-daily-lives.html">“Doses in Our Daily Lives.”</a></li>
+    <li>Zhang, Clare. <a href="https://www.aip.org/fyi/nrc-affirms-science-behind-radiation-standards">“NRC Affirms Science Behind Radiation Standards.”</a> <em>FYI</em>, American Institute of Physics, 10 July 2026.</li>
+    <li>Zhang, Clare. <a href="https://www.aip.org/fyi/nrc-mulls-changes-to-radiation-safety-requirements">“NRC Mulls Changes to Radiation Safety Requirements.”</a> <em>FYI</em>, American Institute of Physics, 17 Mar. 2026.</li>
+    <li>Also mentioned on this page are the <a href="https://www.healutah.org/act-now-tell-the-nrc-to-continue-protecting-communities-public-health-and-meaningful-oversight/">HEAL Utah action alert</a> and the <a href="https://www.americafirstpolicy.com/issues/comments-supporting-replacement-of-alara-and-further-review-of-radiation-dose-limits-and-the-linear-no-threshold-model">America First Policy Institute public comment</a>.</li>
+  </ul>
+</section>
+
+</div>
+
+<footer>
+  &copy; 2026 Will Yaeger. Made for ENC 1101 at Florida State University. Draft 1, last updated October 2026.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- LNT vs threshold chart (canvas) ---------- */
+  var canvas = document.getElementById('model-chart');
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  var pad = { l: 70, r: 20, t: 20, b: 60 };
+  var maxDose = 40;      // rem shown on x axis
+  var maxRisk = 1.0;     // arbitrary units
+  var gap = 10;          // rem where good data runs out
+
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function x(d) { return pad.l + (d / maxDose) * (W - pad.l - pad.r); }
+  function y(r) { return H - pad.b - (r / maxRisk) * (H - pad.t - pad.b); }
+  function lnt(d) { return 0.022 * d; }
+  function threshold(d) { var t = 6; return d <= t ? 0 : 0.022 * maxDose * (d - t) / (maxDose - t); }
+
+  // fake "high dose data" points, schematic only
+  var points = [12, 16, 20, 24, 28, 32, 36].map(function (d, i) {
+    var wiggle = [0.03, -0.02, 0.025, -0.03, 0.02, -0.015, 0.03][i];
+    return { d: d, r: lnt(d) + wiggle };
+  });
+
+  function drawFrame(progress) {
+    var text = css('--ink'), muted = '#888888', line = css('--rule'), box = css('--soft');
+    ctx.clearRect(0, 0, W, H);
+
+    // shaded low-dose region
+    ctx.fillStyle = box;
+    ctx.fillRect(x(0), pad.t, x(gap) - x(0), H - pad.t - pad.b);
+    ctx.fillStyle = muted;
+    ctx.font = '20px Arial';
+    ctx.fillText('Almost no', x(0.5), pad.t + 24);
+    ctx.fillText('data here', x(0.5), pad.t + 48);
+
+    // axes
+    ctx.strokeStyle = line;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad.l, pad.t);
+    ctx.lineTo(pad.l, H - pad.b);
+    ctx.lineTo(W - pad.r, H - pad.b);
+    ctx.stroke();
+    ctx.fillStyle = text;
+    ctx.font = '20px Arial';
+    for (var d = 0; d <= maxDose; d += 10) {
+      ctx.fillText(String(d), x(d) - 10, H - pad.b + 24);
+    }
+    ctx.fillText('Dose (rem)', W / 2 - 40, H - 8);
+    ctx.save();
+    ctx.translate(26, H / 2 + 70);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Added cancer risk', 0, 0);
+    ctx.restore();
+
+    // data points
+    ctx.fillStyle = text;
+    points.forEach(function (p) {
+      ctx.beginPath();
+      ctx.arc(x(p.d), y(p.r), 4, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // curves drawn from high dose down toward zero as progress goes 0 -> 1
+    var dEnd = maxDose - progress * maxDose;
+    function curve(fn, color, dash) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
+      ctx.setLineDash(dash);
+      ctx.beginPath();
+      for (var dd = maxDose; dd >= dEnd; dd -= 0.25) {
+        var px = x(dd), py = y(fn(dd));
+        if (dd === maxDose) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    curve(lnt, '#3a5f91', []);
+    curve(threshold, '#e8731c', [8, 6]);
+
+    // legend
+    var lx = x(gap) + 14, ly = pad.t + 10;
+    ctx.fillStyle = '#3a5f91';
+    ctx.fillRect(lx, ly + 4, 28, 5);
+    ctx.fillStyle = text;
+    ctx.fillText('LNT model', lx + 38, ly + 12);
+    ctx.fillStyle = '#e8731c';
+    ctx.fillRect(lx, ly + 34, 28, 5);
+    ctx.fillStyle = text;
+    ctx.fillText('Threshold model', lx + 38, ly + 42);
+    ctx.beginPath();
+    ctx.arc(lx + 14, ly + 66, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillText('High-dose data', lx + 38, ly + 72);
+  }
+
+  var animId = null;
+  function animateChart() {
+    if (animId) cancelAnimationFrame(animId);
+    if (reduceMotion) { drawFrame(1); return; }
+    var start = null, duration = 2500;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / duration, 1);
+      drawFrame(p);
+      if (p < 1) animId = requestAnimationFrame(step);
+    }
+    animId = requestAnimationFrame(step);
+  }
+  drawFrame(0);
+  document.getElementById('replay').addEventListener('click', animateChart);
+
+  /* ---------- Dose bars (log scale) ---------- */
+  var doses = [
+    { label: 'Cross-country flight', mrem: 3.5 },
+    { label: 'Chest X-ray', mrem: 10 },
+    { label: 'NRC public dose limit (per year)', mrem: 100, limit: true },
+    { label: 'Natural background (per year)', mrem: 310 },
+    { label: 'Average American, all sources (per year)', mrem: 620 },
+    { label: 'Chest CT scan', mrem: 700 },
+    { label: 'NRC worker dose limit (per year)', mrem: 5000, limit: true },
+    { label: 'Where good data runs out (10 rem)', mrem: 10000 }
+  ];
+  var barsEl = document.getElementById('dose-bars');
+  var minLog = Math.log10(1), maxLog = Math.log10(10000);
+  doses.forEach(function (item) {
+    var row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = '<span class="bar-label">' + item.label + ' (about ' + item.mrem.toLocaleString() + ' millirem)</span>' +
+      '<div class="bar-track"><div class="bar-fill' + (item.limit ? ' limit' : '') + '"></div></div>';
+    var pct = ((Math.log10(item.mrem) - minLog) / (maxLog - minLog)) * 100;
+    row.querySelector('.bar-fill').dataset.width = Math.max(pct, 2) + '%';
+    barsEl.appendChild(row);
+  });
+  function growBars() {
+    barsEl.querySelectorAll('.bar-fill').forEach(function (el) { el.style.width = el.dataset.width; });
+  }
+
+  /* ---------- Start animations when scrolled into view ---------- */
+  if ('IntersectionObserver' in window) {
+    var seen = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        if (entry.target === canvas) animateChart();
+        if (entry.target === barsEl) growBars();
+        seen.unobserve(entry.target);
+      });
+    }, { threshold: 0.4 });
+    seen.observe(canvas);
+    seen.observe(barsEl);
+  } else {
+    animateChart();
+    growBars();
+  }
+
+  /* ---------- Copy letter ---------- */
+  var status = document.getElementById('copy-status');
+  document.getElementById('copy-letter').addEventListener('click', function () {
+    var box = document.getElementById('letter');
+    function done() { status.textContent = 'Letter copied. Paste it into your representative’s contact form.'; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(box.value).then(done, function () { box.select(); document.execCommand('copy'); done(); });
+    } else {
+      box.select();
+      document.execCommand('copy');
+      done();
+    }
+  });
+
+  /* ---------- Print one-page summary ---------- */
+  document.getElementById('print-brief').addEventListener('click', function () {
+    document.body.classList.add('print-brief');
+    window.print();
+    setTimeout(function () { document.body.classList.remove('print-brief'); }, 500);
+  });
+})();
+</script>
+</body>
+</html>
